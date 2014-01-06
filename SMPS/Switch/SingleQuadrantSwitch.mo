@@ -12,12 +12,12 @@ extends ActiveSwitchAb;
   
   parameter SI.Resistance Ron
     "On-state resistance [Ohm]";
-  parameter SI.Voltage Vrelon = 2.0
+  parameter SI.Voltage Vgson = 2.0
     "Desired on-state gate to source voltage, necessary for the gate driver [V]";
 
 protected
   NMosfet tr(Ron=Ron);
-  GateDriver gd(Von=Vrelon);
+  GateDriver gd(Von=Vgson);
 
 equation
   connect(p, tr.d);
