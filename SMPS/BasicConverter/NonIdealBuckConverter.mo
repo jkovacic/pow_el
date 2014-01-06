@@ -24,6 +24,8 @@ extends ISmps;
     "Capacitor's capacitance";
   parameter SMPS.PWM.DutyCycleRatio D = 0.6
     "Duty cycle";
+  parameter SI.Voltage Vm = 2.0
+    "PWM's sawtottoh voltage amplitude [V]";
   parameter SI.Voltage Von = 2.0
     "PWM's high level voltage";
 
@@ -33,7 +35,8 @@ protected
   EL.Basic.Resistor rl(R=RLloss);
   SMPS.Switch.SingleQuadrantSwitch t(Ron=Rton);
   SMPS.Switch.Diode d(Vd=Vdknee, Rd=Rd);
-  SMPS.PWM.DutyCycleD dgen(Vm=2, Von=Von, fs=100.e+3);
+  SMPS.PWM.DutyCycle dgen(Vm=Vm, Von=Von, fs=100.e+3);
+  EL.Sources.ConstantVoltage Vref(V=Vm*D);
 
 equation
   connect(inP, t.p);
@@ -49,12 +52,15 @@ equation
   connect(dgen.n, d.p);
   connect(dgen.p, t.ctrl);
   connect(t.gnd, dgen.n);
+  connect(Vref.n, dgen.n);
+  connect(Vref.p, dgen.ref);
 
-  dgen.d = D;
 
   /*
     For more details about a buck converter and its typical circuits, see
     https://en.wikipedia.org/wiki/Buck_converter
+    
+    For testing purposes, the PWM implementation with input voltage reference is chosen.
    */
 
 end NonIdealBuckConverter;

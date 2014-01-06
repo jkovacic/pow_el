@@ -10,11 +10,11 @@ model DutyCycle
   "
 extends DutyCycleAb;
   
-  EL.Interfaces.PositivePin ctrl  
+  EL.Interfaces.PositivePin ref  
     "Reference voltage, relative to the pin n [V]";
 
 equation
-  connect(ctrl, opamp.in_p);
+  connect(ref, opamp.in_p);
   
   /*
     To complete the parent model's circuit, 'ctrl' must
