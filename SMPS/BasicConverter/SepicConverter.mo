@@ -35,7 +35,7 @@ extends ISmps;
   parameter SI.Voltage Vm = 2.0
     "PWM's sawtooth voltage amplitude [V]";
   parameter SI.Voltage Von = 2.0
-    "PWM's high level voltage";
+    "PWM's high level voltage [V]";
 
   Modelica.Blocks.Interfaces.RealInput d
     "Duty cycle";
