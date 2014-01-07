@@ -10,7 +10,7 @@ model BuckConverter
   The duty cycle is set directly (as a dimensionless real number
   between 0 and 1) and may vary during the simulation run.
   "
-extends ISmps;
+extends ISmpsDport;
 
   parameter SI.Resistance Rton = 1.6e-3
     "Transistor's on-state resistance [Ohm]";
@@ -30,9 +30,6 @@ extends ISmps;
     "PWM's high level voltage [V]";
   parameter SI.Frequency fs = 75.e+3
     "Switching frequency [Hz]";
-
-  Modelica.Blocks.Interfaces.RealInput d
-    "Duty cycle";
 
 protected
   EL.Basic.Inductor ind(L=L);

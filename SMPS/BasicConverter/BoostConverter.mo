@@ -9,7 +9,7 @@ model BoostConverter
   between 0 and 100) and is constant during the simulation run.
   "
   
-extends ISmps;
+extends ISmpsDport;
 
   parameter SI.Resistance Rton = 1.6e-3
     "Transistor's on-state resistance [Ohm]";
@@ -29,9 +29,6 @@ extends ISmps;
     "PWM's high level voltage [V]";
   parameter SI.Frequency fs = 75.e+3
     "Switching frequency [Hz]";
-
-  Modelica.Blocks.Interfaces.RealInput d
-    "Duty cycle";
 
 protected
   EL.Basic.Inductor ind (L=L);

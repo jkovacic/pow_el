@@ -10,7 +10,7 @@ model SepicConverter
   The duty cycle is set directly (as a dimensionless real number
   between 0 and 1) and may vary during the simulation run.
   "
-extends ISmps;
+extends ISmpsDport;
 
   parameter SI.Inductance Li = 100.e-3
     "Input inductor's (L1) inductance [H]";
@@ -36,9 +36,6 @@ extends ISmps;
     "PWM's sawtooth voltage amplitude [V]";
   parameter SI.Voltage Von = 2.0
     "PWM's high level voltage [V]";
-
-  Modelica.Blocks.Interfaces.RealInput d
-    "Duty cycle";
     
 protected
   EL.Basic.Inductor indi (L=Li);
