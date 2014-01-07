@@ -11,23 +11,23 @@ model BoostConverter
   
 extends ISmpsDport;
 
-  parameter SI.Resistance Rton = 1.6e-3
+  parameter SI.Resistance Rton = Defaults.Rton
     "Transistor's on-state resistance [Ohm]";
-  parameter SI.Voltage Vdknee = 1.2
+  parameter SI.Voltage Vdknee = Defaults.Vknee
     "Diode's knee voltage [V]";
-  parameter SI.Resistance Rd = 0
+  parameter SI.Resistance Rd = Defaults.Rd
     "Diode's conduction mode resistance [Ohm]";
-  parameter SI.Inductance L = 100.e-3
+  parameter SI.Inductance L = Defaults.L
     "Inductor's inductance [H]";
-  parameter SI.Resistance RLloss = 4e-3
+  parameter SI.Resistance RLloss = Defaults.Rl
     "Inductor's copper resistance [Ohm]";
-  parameter SI.Capacitance C = 100.e-6
-    "Capacitor's capacitance";
-  parameter SI.Voltage Vm = 2.0
+  parameter SI.Capacitance C = Defaults.C
+    "Capacitor's capacitance [F]";
+  parameter SI.Voltage Vm = Defaults.Vm
     "PWM's sawtooth voltage amplitude [V]";
-  parameter SI.Voltage Von = 2.0
+  parameter SI.Voltage Von = Defaults.Von
     "PWM's high level voltage [V]";
-  parameter SI.Frequency fs = 75.e+3
+  parameter SI.Frequency fs = Defaults.fs
     "Switching frequency [Hz]";
 
 protected

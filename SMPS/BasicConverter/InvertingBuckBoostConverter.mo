@@ -11,23 +11,23 @@ model InvertingBuckBoostConverter
   "
 extends ISmpsDport;
 
-  parameter SI.Inductance L = 100.e-3
+  parameter SI.Inductance L = Defaults.L
     "Inductor's inductance [H]";
-  parameter SI.Capacitance C = 100.e-6
+  parameter SI.Capacitance C = Defaults.C
     "Capacitor's capacitance [F]";
-  parameter SI.Resistance RLloss = 4.e-3
+  parameter SI.Resistance RLloss = Defaults.Rl
     "Inductor's copper resistance [Ohm]";
-  parameter SI.Resistance Rton = 1.6e-3
+  parameter SI.Resistance Rton = Defaults.Rton
     "Transistor's on-state resistance [Ohm]";
-  parameter SI.Voltage Vdknee = 0.7
+  parameter SI.Voltage Vdknee = Defaults.Vknee
     "Diode's knee voltage [V]";
-  parameter SI.Resistance Rd = 0
+  parameter SI.Resistance Rd = Defaults.Rd
     "Diode's conduction mode resistance [Ohm]";
-  parameter SI.Frequency fs = 75.e+3
+  parameter SI.Frequency fs = Defaults.fs
     "Switching frequency [Hz]";
-  parameter SI.Voltage Vm = 2.0
+  parameter SI.Voltage Vm = Defaults.Vm
     "PWM's sawtooth voltage amplitude [V]";
-  parameter SI.Voltage Von = 2.0
+  parameter SI.Voltage Von = Defaults.Von
     "PWM's high level voltage";
 
 

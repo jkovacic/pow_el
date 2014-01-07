@@ -12,29 +12,29 @@ model SepicConverter
   "
 extends ISmpsDport;
 
-  parameter SI.Inductance Li = 100.e-3
+  parameter SI.Inductance Li = Defaults.L
     "Input inductor's (L1) inductance [H]";
-  parameter SI.Inductance L2 = Li
+  parameter SI.Inductance L2 = Defaults.L
     "Second inductor's (L2) inductance [H]";
-  parameter SI.Capacitance C1 = 100.e-6
+  parameter SI.Capacitance C1 = Defaults.C
     "First capacitor's capacitance [F]";
-  parameter SI.Capacitance Co = C1
+  parameter SI.Capacitance Co = Defaults.C
     "Output capacitor's capacitance [F]";
-  parameter SI.Resistance RLlossi = 4.e-3
+  parameter SI.Resistance RLlossi = Defaults.Rl
     "Input inductor's copper resistance [Ohm]";
   parameter SI.Resistance RLloss2 = RLlossi
     "Second inductor's copper resistance [Ohm]";
-  parameter SI.Resistance Rton = 1.6e-3
+  parameter SI.Resistance Rton = Defaults.Rton
     "Transistor's on-state resistance [Ohm]";
-  parameter SI.Voltage Vdknee = 0.7
+  parameter SI.Voltage Vdknee = Defaults.Vknee
     "Diode's knee voltage [V]";
-  parameter SI.Resistance Rd = 0
+  parameter SI.Resistance Rd = Defaults.Rd
     "Diode's conduction mode resistance [Ohm]";
-  parameter SI.Frequency fs = 75.e+3
+  parameter SI.Frequency fs = Defaults.fs
     "Switching frequency [Hz]";
-  parameter SI.Voltage Vm = 2.0
+  parameter SI.Voltage Vm = Defaults.Vm
     "PWM's sawtooth voltage amplitude [V]";
-  parameter SI.Voltage Von = 2.0
+  parameter SI.Voltage Von = Defaults.Von
     "PWM's high level voltage [V]";
     
 protected
