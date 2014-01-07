@@ -1,4 +1,4 @@
-model NonidealBuckConverterExample
+model BuckConverterExample
   "
   A nonideal buck converter, built of nonideal (lossy) elements.
   A constant DC input voltage and resistive load are connected
@@ -6,8 +6,9 @@ model NonidealBuckConverterExample
   "
 import SMPS.*;
 
+  parameter SMPS.PWM.DutyCycleRatio D = 0.75;
   // Mostly use provided buck converter skeleton's default values:
-  SMPS.BasicConverter.NonIdealBuckConverter buck(D = 0.75);
+  SMPS.BasicConverter.BuckConverter buck;
   EL.Basic.Ground gnd;
   EL.Basic.Resistor load(R = 2500);
   EL.Sources.ConstantVoltage Vg(V = 20);
@@ -18,5 +19,6 @@ equation
   connect(Vg.p, buck.inP);
   connect(buck.outP, load.p);
   connect(buck.outN, load.n);
+  buck.d = D;
 
-end NonidealBuckConverterExample;
+end BuckConverterExample;

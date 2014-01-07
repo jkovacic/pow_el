@@ -1,8 +1,6 @@
 ISmps
-IdealBuckConverter
-NonIdealBuckConverter
-IdealBoostConverter
-NonIdealBoostConverter
+BuckConverter
+BoostConverter
 InvertingBuckBoostConverter
 CukConverter
 SepicConverter

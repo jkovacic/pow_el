@@ -1,6 +1,6 @@
 within SMPS.BasicConverter;
 
-model NonIdealBoostConverter
+model BoostConverter
   "
   A boost converter, built of nonideal (lossy) elements.
   Losses of a transistor, diode and inductor copper are modeled.
@@ -23,22 +23,26 @@ extends ISmps;
     "Inductor's copper resistance [Ohm]";
   parameter SI.Capacitance C = 100.e-6
     "Capacitor's capacitance";
-  parameter SMPS.PWM.DutyCycleRatio D = 0.6
-    "Duty cycle";
+  parameter SI.Voltage Vm = 2.0
+    "PWM's sawtooth voltage amplitude [V]";
   parameter SI.Voltage Von = 2.0
-    "PWM's high level voltage";
+    "PWM's high level voltage [V]";
+  parameter SI.Frequency fs = 75.e+3
+    "Switching frequency [Hz]";
+
+  Modelica.Blocks.Interfaces.RealInput d
+    "Duty cycle";
 
 protected
-  EL.Basic.Inductor ind(L=L);
-  EL.Basic.Capacitor cap(C=C);
-  EL.Basic.Resistor rl(R=RLloss);
-  SMPS.Switch.SingleQuadrantSwitch tr(Ron=Rton);
-  SMPS.Switch.Diode d(Vd=Vdknee, Rd=Rd);
-  SMPS.PWM.DutyCycleD dgen(Vm=2, Von=2, fs=100.e+3);
+  EL.Basic.Inductor ind (L=L);
+  EL.Basic.Capacitor cap (C=C);
+  EL.Basic.Resistor rl (R=RLloss);
+  SMPS.Switch.SingleQuadrantSwitch tr (Ron=Rton);
+  SMPS.Switch.Diode diode (Vd=Vdknee, Rd=Rd);
+  SMPS.PWM.DutyCycleD dgen (Vm=Vm, Von=Von, fs=fs);
 
 equation
-  dgen.d = D;
-  
+
   connect(inP, ind.p);
   connect(ind.n, rl.p);
   connect(rl.n, tr.p);
@@ -48,15 +52,16 @@ equation
   connect(dgen.p, tr.ctrl);
   connect(tr.gnd, dgen.n);
   
-  connect(tr.p, d.p);
-  connect(d.n, cap.p);
+  connect(tr.p, diode.p);
+  connect(diode.n, cap.p);
   connect(cap.p, outP);
   connect(cap.n, outN);
   connect(cap.n, tr.n);
+  connect(dgen.d, d);
 
   /*
     For more details about a boost converter and its typical circuits, see
     https://en.wikipedia.org/wiki/Boost_converter
    */
 
-end NonIdealBoostConverter;
+end BoostConverter;

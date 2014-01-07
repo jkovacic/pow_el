@@ -1,12 +1,14 @@
 within SMPS.BasicConverter;
 
-model NonIdealBuckConverter
+model BuckConverter
   "
   A buck converter, built of nonideal (lossy) elements.
   Losses of a transistor, diode and inductor copper are modeled.
+  Optionally any lossy element can be set to 0. By default
+  both inductors and capacitors are identical.
   
   The duty cycle is set directly (as a dimensionless real number
-  between 0 and 100) and is constant during the simulation run.
+  between 0 and 1) and may vary during the simulation run.
   "
 extends ISmps;
 
@@ -21,46 +23,44 @@ extends ISmps;
   parameter SI.Resistance RLloss = 4e-3
     "Inductor's copper resistance [Ohm]";
   parameter SI.Capacitance C = 100.e-6
-    "Capacitor's capacitance";
-  parameter SMPS.PWM.DutyCycleRatio D = 0.6
-    "Duty cycle";
+    "Capacitor's capacitance [F]";
   parameter SI.Voltage Vm = 2.0
-    "PWM's sawtottoh voltage amplitude [V]";
+    "PWM's sawtooth voltage amplitude [V]";
   parameter SI.Voltage Von = 2.0
-    "PWM's high level voltage";
+    "PWM's high level voltage [V]";
+  parameter SI.Frequency fs = 75.e+3
+    "Switching frequency [Hz]";
+
+  Modelica.Blocks.Interfaces.RealInput d
+    "Duty cycle";
 
 protected
   EL.Basic.Inductor ind(L=L);
   EL.Basic.Capacitor cap(C=C);
   EL.Basic.Resistor rl(R=RLloss);
   SMPS.Switch.SingleQuadrantSwitch t(Ron=Rton);
-  SMPS.Switch.Diode d(Vd=Vdknee, Rd=Rd);
-  SMPS.PWM.DutyCycle dgen(Vm=Vm, Von=Von, fs=100.e+3);
-  EL.Sources.ConstantVoltage Vref(V=Vm*D);
+  SMPS.Switch.Diode diode(Vd=Vdknee, Rd=Rd);
+  SMPS.PWM.DutyCycleD dgen(Vm=Vm, Von=Von, fs=fs);
 
 equation
   connect(inP, t.p);
-  connect(t.n, d.n);
-  connect(inN, d.p);
-  connect(d.n, ind.p);
+  connect(t.n, diode.n);
+  connect(inN, diode.p);
+  connect(diode.n, ind.p);
   connect(ind.n, rl.p);
   connect(rl.n, cap.p);
-  connect(cap.n, d.p);
+  connect(cap.n, diode.p);
   connect(outP, cap.p);
   connect(outN, cap.n);
   
-  connect(dgen.n, d.p);
+  connect(dgen.n, diode.p);
   connect(dgen.p, t.ctrl);
   connect(t.gnd, dgen.n);
-  connect(Vref.n, dgen.n);
-  connect(Vref.p, dgen.ref);
-
+  connect(d, dgen.d);
 
   /*
     For more details about a buck converter and its typical circuits, see
     https://en.wikipedia.org/wiki/Buck_converter
-    
-    For testing purposes, the PWM implementation with input voltage reference is chosen.
    */
 
-end NonIdealBuckConverter;
+end BuckConverter;
