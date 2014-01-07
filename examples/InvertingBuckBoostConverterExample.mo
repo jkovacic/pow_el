@@ -6,8 +6,9 @@ model InvertingBuckBoostConverterExample
   "
 import SMPS.*;
 
-  // Mostly use provided boost converter skeleton's default values:
-  SMPS.BasicConverter.InvertingBuckBoostConverter bbconv(D = 0.6);
+  parameter SMPS.PWM.DutyCycleRatio D = 0.6;
+  // Mostly use provided buck boost converter skeleton's default values:
+  SMPS.BasicConverter.InvertingBuckBoostConverter bbconv;
   EL.Basic.Ground gnd;
   EL.Basic.Resistor load(R = 750);
   EL.Sources.ConstantVoltage Vg(V = 10);
@@ -18,5 +19,6 @@ equation
   connect(Vg.p, bbconv.inP);
   connect(bbconv.outP, load.p);
   connect(bbconv.outN, load.n);
+  bbconv.d = D;
 
 end InvertingBuckBoostConverterExample;

@@ -7,16 +7,14 @@ model InvertingBuckBoostConverter
   modeled. Optionally any lossy element can be set to 0.
   
   The duty cycle is set directly (as a dimensionless real number
-  between 0 and 100) and is constant during the simulation run.
+  between 0 and 1) and may vary during the simulation run.
   "
 extends ISmps;
 
-  parameter SMPS.PWM.DutyCycleRatio D = 0.6
-    "Duty cycle";
   parameter SI.Inductance L = 100.e-3
     "Inductor's inductance [H]";
   parameter SI.Capacitance C = 100.e-6
-    "Capacitor's capacitance";
+    "Capacitor's capacitance [F]";
   parameter SI.Resistance RLloss = 4.e-3
     "Inductor's copper resistance [Ohm]";
   parameter SI.Resistance Rton = 1.6e-3
@@ -32,10 +30,14 @@ extends ISmps;
   parameter SI.Voltage Von = 2.0
     "PWM's high level voltage";
 
+  Modelica.Blocks.Interfaces.RealInput d
+    "Duty cycle";
+
 protected
   EL.Basic.Inductor ind (L=L);
   EL.Basic.Capacitor cap (C=C);
-  SMPS.Switch.Diode d (Vd=Vdknee, Rd=Rd);
+  EL.Basic.Resistor Rl (R=RLloss);
+  SMPS.Switch.Diode diode (Vd=Vdknee, Rd=Rd);
   SMPS.Switch.SingleQuadrantSwitch tr (Ron=Rton);
   SMPS.PWM.DutyCycleD dgen(fs=fs, Vm=Vm, Von=Von);
   
@@ -43,17 +45,19 @@ equation
 
   connect(inP, tr.p);
   connect(tr.n, ind.p);
-  connect(ind.n, inN);
-  connect(ind.p, d.n);
-  connect(d.p, cap.p);
-  connect(cap.n, ind.n);
+  connect(ind.n, Rl.p);
+  connect(Rl.n, inN);
+  connect(ind.p, diode.n);
+  connect(diode.p, cap.p);
+  connect(cap.n, Rl.n);
   connect(cap.p, outP);
   connect(cap.n, outN);
   
-  connect(dgen.n, ind.n);
+  connect(dgen.n, inN);
   connect(dgen.p, tr.ctrl);
   connect(tr.gnd, dgen.n);
-  dgen.d = D;
+  connect(d, dgen.d);
+  //dgen.d = D;
 
   /*
     For more details about an inverting buck - boost converter and 
