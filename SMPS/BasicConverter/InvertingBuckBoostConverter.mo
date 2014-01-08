@@ -38,24 +38,32 @@ protected
   SMPS.Switch.Diode diode (Vd=Vdknee, Rd=Rd);
   SMPS.Switch.SingleQuadrantSwitch tr (Ron=Rton);
   SMPS.PWM.DutyCycleD dgen(fs=fs, Vm=Vm, Von=Von);
-  
+
+  // Internal nodes for more robust modeling
+  EL.Interfaces.PositivePin node1;
+  EL.Interfaces.PositivePin node2;
+  EL.Interfaces.NegativePin noden;
+
 equation
 
-  connect(inP, tr.p);
-  connect(tr.n, ind.p);
-  connect(ind.n, Rl.p);
-  connect(Rl.n, inN);
-  connect(ind.p, diode.n);
-  connect(diode.p, cap.p);
-  connect(cap.n, Rl.n);
-  connect(cap.p, outP);
-  connect(cap.n, outN);
+  connect(inN, noden);
+  connect(outN, noden);
   
-  connect(dgen.n, inN);
+  connect(inP, tr.p);
+  connect(tr.n, node1);
+  connect(node1, ind.p);
+  connect(ind.n, Rl.p);
+  connect(Rl.n, noden);
+  connect(node1, diode.n);
+  connect(diode.p, node2);
+  connect(node2, cap.p);
+  connect(cap.n, noden);
+  connect(node2, outP);
+  
+  connect(dgen.n, noden);
   connect(dgen.p, tr.ctrl);
   connect(tr.gnd, dgen.n);
   connect(d, dgen.d);
-  //dgen.d = D;
 
   /*
     For more details about an inverting buck - boost converter and 

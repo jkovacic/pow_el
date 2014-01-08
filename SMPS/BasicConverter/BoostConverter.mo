@@ -38,22 +38,31 @@ protected
   SMPS.Switch.Diode diode (Vd=Vdknee, Rd=Rd);
   SMPS.PWM.DutyCycleD dgen (Vm=Vm, Von=Von, fs=fs);
 
+  // Internal nodes for more robust modeling
+  EL.Interfaces.PositivePin node1;
+  EL.Interfaces.PositivePin node2;
+  EL.Interfaces.NegativePin noden;
+
 equation
+
+  connect(inN, noden);
+  connect(outN, noden);
 
   connect(inP, ind.p);
   connect(ind.n, rl.p);
-  connect(rl.n, tr.p);
-  connect(tr.n, inN);
+  connect(rl.n, node1);
+  connect(node1, tr.p);
+  connect(tr.n, noden);
   
-  connect(dgen.n, tr.n);
+  connect(node1, diode.p);
+  connect(diode.n, node2);
+  connect(node2, cap.p);
+  connect(cap.n, noden);
+  connect(outP, node2);
+
+  connect(dgen.n, noden);
   connect(dgen.p, tr.ctrl);
   connect(tr.gnd, dgen.n);
-  
-  connect(tr.p, diode.p);
-  connect(diode.n, cap.p);
-  connect(cap.p, outP);
-  connect(cap.n, outN);
-  connect(cap.n, tr.n);
   connect(dgen.d, d);
 
   /*

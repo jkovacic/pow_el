@@ -49,33 +49,33 @@ protected
   SMPS.PWM.DutyCycleD dgen (fs=fs, Vm=Vm, Von=Von);
   
   // Internal nodes for more robust modeling
-  EL.Interfaces.PositivePin n1;
-  EL.Interfaces.PositivePin n2;
-  EL.Interfaces.PositivePin n3;
-  EL.Interfaces.NegativePin nn;
+  EL.Interfaces.PositivePin node1;
+  EL.Interfaces.PositivePin node2;
+  EL.Interfaces.PositivePin node3;
+  EL.Interfaces.NegativePin noden;
   
 equation
 
-  connect(inN, nn);
-  connect(outN, nn);
+  connect(inN, noden);
+  connect(outN, noden);
 
   connect(inP, tr.p);
-  connect(tr.n, n1);
-  connect(ind1.p, n1);
+  connect(tr.n, node1);
+  connect(ind1.p, node1);
   connect(ind1.n, Rl1.p);
-  connect(Rl1.n, nn);
-  connect(n1, cap1.p);
-  connect(cap1.n, n2);
-  connect(n2, diode.n);
-  connect(diode.p, nn);
-  connect(n2, indo.p);
+  connect(Rl1.n, noden);
+  connect(node1, cap1.p);
+  connect(cap1.n, node2);
+  connect(node2, diode.n);
+  connect(diode.p, noden);
+  connect(node2, indo.p);
   connect(indo.n, Rlo.p);
-  connect(Rlo.n, n3);
-  connect(n3, capo.p);
-  connect(capo.n, nn);
-  connect(outP, n3);
+  connect(Rlo.n, node3);
+  connect(node3, capo.p);
+  connect(capo.n, noden);
+  connect(outP, node3);
 
-  connect(dgen.n, nn);
+  connect(dgen.n, noden);
   connect(dgen.p, tr.ctrl);
   connect(tr.gnd, dgen.n);
   connect(d, dgen.d);

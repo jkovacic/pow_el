@@ -35,24 +35,34 @@ protected
   EL.Basic.Inductor ind(L=L);
   EL.Basic.Capacitor cap(C=C);
   EL.Basic.Resistor rl(R=RLloss);
-  SMPS.Switch.SingleQuadrantSwitch t(Ron=Rton);
+  SMPS.Switch.SingleQuadrantSwitch tr(Ron=Rton);
   SMPS.Switch.Diode diode(Vd=Vdknee, Rd=Rd);
   SMPS.PWM.DutyCycleD dgen(Vm=Vm, Von=Von, fs=fs);
 
+  // Internal nodes for more robust modeling
+  EL.Interfaces.PositivePin node1;
+  EL.Interfaces.PositivePin node2;
+  EL.Interfaces.NegativePin noden;
+
 equation
-  connect(inP, t.p);
-  connect(t.n, diode.n);
-  connect(inN, diode.p);
-  connect(diode.n, ind.p);
+
+  connect(inN, noden);
+  connect(outN, noden);
+
+  connect(inP, tr.p);
+  connect(tr.n, node1);
+  connect(node1, diode.n);
+  connect(diode.p, noden);
+  connect(node1, ind.p);
   connect(ind.n, rl.p);
-  connect(rl.n, cap.p);
-  connect(cap.n, diode.p);
-  connect(outP, cap.p);
-  connect(outN, cap.n);
+  connect(rl.n, node2);
+  connect(node2, cap.p);
+  connect(cap.n, noden);
+  connect(node2, outP);
   
-  connect(dgen.n, diode.p);
-  connect(dgen.p, t.ctrl);
-  connect(t.gnd, dgen.n);
+  connect(dgen.n, noden);
+  connect(dgen.p, tr.ctrl);
+  connect(tr.gnd, dgen.n);
   connect(d, dgen.d);
 
   /*

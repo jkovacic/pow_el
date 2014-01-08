@@ -13,17 +13,17 @@ model SepicConverter
 extends ISmpsDport;
 
   parameter SI.Inductance Li = Defaults.L
-    "Input inductor's (L1) inductance [H]";
+    "Input inductor's (Li) inductance [H]";
   parameter SI.Inductance L2 = Defaults.L
-    "Second inductor's (L2) inductance [H]";
+    "Output inductor's (L2) inductance [H]";
   parameter SI.Capacitance C1 = Defaults.C
     "First capacitor's capacitance [F]";
   parameter SI.Capacitance Co = Defaults.C
     "Output capacitor's capacitance [F]";
   parameter SI.Resistance RLlossi = Defaults.Rl
     "Input inductor's copper resistance [Ohm]";
-  parameter SI.Resistance RLloss2 = RLlossi
-    "Second inductor's copper resistance [Ohm]";
+  parameter SI.Resistance RLloss2 = Defaults.Rl
+    "Output inductor's copper resistance [Ohm]";
   parameter SI.Resistance Rton = Defaults.Rton
     "Transistor's on-state resistance [Ohm]";
   parameter SI.Voltage Vdknee = Defaults.Vknee
@@ -47,24 +47,35 @@ protected
   SMPS.Switch.SingleQuadrantSwitch tr (Ron=Rton);
   SMPS.Switch.Diode diode (Vd=Vdknee, Rd=Rd);
   SMPS.PWM.DutyCycleD dgen (fs=fs, Vm=Vm, Von=Von);
-  
+
+  // Internal nodes for more robust modeling
+  EL.Interfaces.PositivePin node1;
+  EL.Interfaces.PositivePin node2;
+  EL.Interfaces.PositivePin node3;
+  EL.Interfaces.NegativePin noden;
+
 equation
+
+  connect(inN, noden);
+  connect(outN, noden);
 
   connect(inP, indi.p);
   connect(indi.n, RLi.p);
-  connect(RLi.n, tr.p);
-  connect(tr.n, inN);
-  connect(tr.p, cap1.p);
-  connect(cap1.n, ind2.p);
+  connect(RLi.n, node1);
+  connect(node1, tr.p);
+  connect(tr.n, noden);
+  connect(node1, cap1.p);
+  connect(cap1.n, node2);
+  connect(node2, ind2.p);
   connect(ind2.n, RL2.p);
-  connect(RL2.n, tr.n);
-  connect(ind2.p, diode.p);
-  connect(diode.n, capo.p);
-  connect(capo.n, RL2.n);
-  connect(capo.p, outP);
-  connect(capo.n, outN);
+  connect(RL2.n, noden);
+  connect(node2, diode.p);
+  connect(diode.n, node3);
+  connect(capo.p, node3);
+  connect(capo.n, noden);
+  connect(node3, outP);
   
-  connect(dgen.n, tr.n);
+  connect(dgen.n, noden);
   connect(dgen.p, tr.ctrl);
   connect(tr.gnd, dgen.n);
   connect(d, dgen.d);
