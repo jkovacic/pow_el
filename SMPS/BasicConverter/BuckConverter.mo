@@ -4,8 +4,7 @@ model BuckConverter
   "
   A buck converter, built of nonideal (lossy) elements.
   Losses of a transistor, diode and inductor copper are modeled.
-  Optionally any lossy element can be set to 0. By default
-  both inductors and capacitors are identical.
+  Optionally any lossy element can be set to 0.
   
   The duty cycle is set directly (as a dimensionless real number
   between 0 and 1) and may vary during the simulation run.
