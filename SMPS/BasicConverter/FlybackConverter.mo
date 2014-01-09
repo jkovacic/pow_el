@@ -74,7 +74,7 @@ equation
   connect(d, dgen.d);
 
   /*
-    For more details about a buck converter and its typical circuits, see
+    For more details about a flyback converter and its typical circuits, see
     https://en.wikipedia.org/wiki/Flyback_converter
    */
 
