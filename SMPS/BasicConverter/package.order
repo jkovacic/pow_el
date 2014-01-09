@@ -5,6 +5,7 @@ ISmpsVport
 BuckConverter
 BoostConverter
 InvertingBuckBoostConverter
+FlybackConverter
 CukConverter
 SepicConverter
 ZetaConverter
