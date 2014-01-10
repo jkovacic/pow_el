@@ -24,8 +24,8 @@ package Defaults
   constant SI.Voltage Vknee = 0.7
     "Default diode's knee voltage: 0.7 V";
 
-  constant SI.Resistance Rd = 0.0
-    "Default diode's conduction mode resistance: 0 Ohm";
+  constant SI.Resistance Rd = 1e-5
+    "Default diode's conduction mode resistance: 1.e-5 Ohm";
 
   // TODO: default Qr and tr
 

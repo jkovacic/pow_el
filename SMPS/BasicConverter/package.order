@@ -6,6 +6,8 @@ BuckConverter
 BoostConverter
 InvertingBuckBoostConverter
 FlybackConverter
+DoubleOutputFlybackConverter
+ForwardConverter
 CukConverter
 SepicConverter
 ZetaConverter

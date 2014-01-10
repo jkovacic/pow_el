@@ -15,8 +15,7 @@ the directory `/examples`.
 The library is still a work in progress and is not complete yet. Several features will be
 added as soon as possible, e.g.:
 * Model of semiconductor diode reverse recovery losses
-* Models of additional converters, e.g. flyback converter, forward converter,
-various inverters, etc.
+* Models of additional converters, e.g. various inverters, etc.
 * PI(D) compensator elements for more sophisticated applications.
 * Conversion of comments into standardized documentation annotations.
 * Icons of library's components.
