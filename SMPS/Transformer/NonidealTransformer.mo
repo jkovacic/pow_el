@@ -27,8 +27,7 @@ model NonidealTransformer
   EL.Interfaces.NegativePin n2;
 
 protected
-  EL.Ideal.IdealTransformer tf (n=np/ns, considerMagnetization=false);
-  EL.Basic.Inductor indm (L=Lm);      // magnetizing inductor
+  EL.Ideal.IdealTransformer tf (n=np/ns, Lm1=Lm, considerMagnetization=true);
   EL.Basic.Resistor rp (R=Rlp);       // resistance of primary winding
   EL.Basic.Resistor rs (R=Rls);       // resistance of secondary winding
   EL.Basic.Resistor rc (R=Rcore);     // core losses
@@ -38,12 +37,9 @@ equation
   /*
     The provided model of an ideal transformer does not
     consider all desired losses. Hence an ideal transformer will
-    be applied, magnetizing inductor and loss resistors will
-    be connected to it as necessary
+    be applied and loss resistors will be connected to it as accordingly.
    */
 
-  connect(indm.p, tf.p1);
-  connect(indm.n, tf.n1);
   connect(tf.p1, rc.p);
   connect(tf.n1, rc.n);
 

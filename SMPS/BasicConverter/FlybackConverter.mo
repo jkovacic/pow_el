@@ -67,8 +67,8 @@ equation
   connect(cap.n, noden);
   connect(outP, node1);
 
-  // The PWM controller is "grounded" w.r.t. secondary side 
-  connect(dgen.n, noden);
+  // The PWM controller is "grounded" w.r.t. primary side 
+  connect(dgen.n, tr.n);
   connect(dgen.p, tr.ctrl);
   connect(tr.gnd, dgen.n);
   connect(d, dgen.d);
