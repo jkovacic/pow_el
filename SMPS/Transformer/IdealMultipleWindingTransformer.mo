@@ -14,7 +14,7 @@ model IdealMultipleWindingTransformer
     "Primary side relative winding turns";
   parameter Real[N] ns = fill(1, N)
     "Array of secondary side relative winding turns";
-  parameter SI.Inductance Lm1
+  parameter SI.Inductance Lm1 = SMPS.BasicConverter.Defaults.L
     "Magnetizing inductance [H]";
 
   EL.Interfaces.PositivePin pP     "Primary winding's positive pin";
@@ -35,16 +35,16 @@ equation
   ip = pP.i;
   pP.i + pN.i = 0;
 
-  for iter in 1 : N loop
-    vs[iter] = sP[iter].v - sN[iter].v;
-    is[iter] = sP[iter].i;
-    sP[iter].i + sN[iter].i = 0;
-    // secondary windings' voltages:
-    vs[iter] / ns[iter] = vp / np;
+  for wnr in 1 : N loop
+    vs[wnr] = sP[wnr].v - sN[wnr].v;
+    is[wnr] = sP[wnr].i;
+    sP[wnr].i + sN[wnr].i = 0;
+    // secondary windings' voltage equations:
+    vs[wnr] / ns[wnr] = vp / np;
   end for;
 
-  // Modelica supports vector dot product, that facilitates
-  // the current sum equation
+  // Modelica supports a vector dot product, that facilitates
+  // the equation for transformer's sum of currents:
   (ip - im) * np + ns * is = 0;
 
   // The magnetizing inductance is parallel to the primary winding  
