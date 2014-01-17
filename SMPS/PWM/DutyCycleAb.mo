@@ -16,7 +16,7 @@ partial model DutyCycleAb
     "Output on-voltage [V]";
  
   parameter SI.Frequency fs = 100.e+3
-    "Switching frequency of the modulator [Hertz]";
+    "Switching frequency of the modulator [Hz]";
  
   EL.Interfaces.PositivePin p  "Positive output pin";
   EL.Interfaces.NegativePin n  "Negative output pin";

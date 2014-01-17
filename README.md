@@ -1,6 +1,6 @@
 ##About
 This Modelica library contains several building blocks (e.g. switches, PWM generators, 
-transistor gate drivers, etc.) that facilitate the design and modeling of SMPS (switching mode
+transistor gate drivers, etc.) that facilitate the design and modeling of SMPS (switched - mode
 power supply) based power electronics applications.
 
 For more information see comments in components' source files and demo applications in 
