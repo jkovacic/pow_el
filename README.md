@@ -1,4 +1,5 @@
-##About
+About
+-----
 This Modelica library contains several building blocks (e.g. switches, PWM generators, 
 transistor gate drivers, etc.) that facilitate the design and modeling of SMPS (switched - mode
 power supply) based power electronics applications.
@@ -6,12 +7,14 @@ power supply) based power electronics applications.
 For more information see comments in components' source files and demo applications in 
 the directory `/examples`.
 
-##Prerequisites
+Prerequisites
+-------------
 * The [Modelica Standard Library 3.2.1](https://github.com/modelica/Modelica).
 * [OpenModelica](https://www.openmodelica.org/) or 
 [any other](https://www.modelica.org/tools/) Modelica simulation environment.
 
-##TODO
+TODO
+----
 The library is still a work in progress and is not complete yet. Several features will be
 added as soon as possible, e.g.:
 * Model of semiconductor diode reverse recovery losses
@@ -22,10 +25,12 @@ added as soon as possible, e.g.:
 * Schematics of components' circuits.
 * etc.
 
-##License
+License
+-------
 This library is free software and the use is completely at your own risk; it can be 
 redistributed and/or modified under the terms of the 
 [Modelica License 2](https://www.modelica.org/licenses/ModelicaLicense2).
 
-##Author
+Author
+------
 The author of the library is Jernej Kova&#x010d;i&#x010d;.
