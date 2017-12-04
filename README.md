@@ -25,7 +25,7 @@ added as soon as possible, e.g.:
 ## License
 This library is free software and the use is completely at your own risk; it can be 
 redistributed and/or modified under the terms of the 
-[Modelica License 2](https://www.modelica.org/licenses/ModelicaLicense2).
+[3-Clause BSD License](https://opensource.org/licenses/BSD-3-Clause).
 
 ## Author
 The author of the library is Jernej Kova&#x010d;i&#x010d;.
